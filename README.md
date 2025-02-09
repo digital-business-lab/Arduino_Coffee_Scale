@@ -62,7 +62,7 @@ Follow these steps to set up the **ESP32 with a load cell**:
 
 ---
 
-## 🔍 How it Works (System Architecture)
+## 🔍 How it Works
 
 ### 🛠 **Data Flow**
 1. **ESP32 → MQTT**  
