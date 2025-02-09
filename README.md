@@ -47,7 +47,7 @@ Follow these steps to set up the **ESP32 with a load cell**:
 2️⃣ **Navigate to the folder**  
    - Open a terminal and run:  
      ```bash
-     cd CoffeeDashboard
+     cd destinationFolder/CoffeeDashboard
      ```
 
 3️⃣ **Start the Docker container**  
@@ -65,41 +65,41 @@ Follow these steps to set up the **ESP32 with a load cell**:
 
 ### 🛠 **Data Flow**
 1. **ESP32 → MQTT**  
-   - The ESP32 collects weight measurements from the **load cell** via the **HX711 amplifier**.  
-   - The ESP32 **sends the data via MQTT** to a broker (e.g., Mosquitto).
+   - The ESP32 collects weight measurements from the **load cell** via the **HX711 amplifier**
+   - The ESP32 **sends the data via MQTT** to a HiveMQ (Broker)
 
 2. **Node-RED → Data Processing**  
-   - **Node-RED subscribes to the MQTT topic** where ESP32 sends the weight data.  
-   - It processes the data and **forwards it to InfluxDB** for storage.
+   - **Node-RED subscribes to the MQTT topic** where ESP32 sends the weight data
+   - It processes the data and **forwards it to InfluxDB** for storage
 
 3. **InfluxDB → Time-Series Database**  
-   - Stores all incoming **weight data** as time-series data.  
-   - Provides efficient querying and retrieval.
+   - Stores all incoming **weight data** as time-series data
+   - Provides efficient querying and retrieval
 
 4. **Grafana → Visualization**  
-   - Connects to **InfluxDB** to fetch stored data.  
-   - Displays real-time data on an **interactive dashboard**.
-   - Allows users to **analyze trends and patterns** over time.
+   - Connects to **InfluxDB** to fetch stored data
+   - Displays real-time data on an **interactive dashboard**
+   - Allows users to **analyze trends and patterns** over time
 
 ### 🗄 **Key Components**
 #### **1️⃣ MQTT (Message Broker)**
-- Acts as a **communication bridge** between ESP32 and Node-RED.
-- Uses a **publish-subscribe** model for efficient data transfer.
+- Acts as a **communication bridge** between ESP32 and Node-RED
+- Uses a **publish-subscribe** model for efficient data transfer
 
 #### **2️⃣ Node-RED (Data Processing & Forwarding)**
-- **Subscribes to the ESP32 MQTT topic** to receive live data.
-- **Processes and formats the data** before sending it to InfluxDB.
-- Can be extended with additional logic (e.g., alerts, notifications).
+- **Subscribes to the ESP32 MQTT topic** to receive live data
+- **Processes and formats the data** before sending it to InfluxDB
+- Can be extended with additional logic (e.g., alerts, notifications)
 
 #### **3️⃣ InfluxDB (Database)**
-- **Stores all weight data** as time-series data.
-- Optimized for **fast queries and efficient storage**.
+- **Stores all weight data** as time-series data
+- Optimized for **fast queries and efficient storage**
 
 #### **4️⃣ Grafana (Visualization)**
-- Retrieves data from **InfluxDB** and displays it in a **dashboard**.
-- Enables **real-time monitoring** and analysis.
+- Retrieves data from **InfluxDB** and displays it in a **dashboard**
+- Enables **real-time monitoring** and analysis
 
-🎯 **End Result:** The **live weight data** is visualized in Grafana, updated in real-time! 🚀
+🎯 **End Result:** The **live weight data** is visualized in Grafana, updated in real-time!
 
 ---
 
