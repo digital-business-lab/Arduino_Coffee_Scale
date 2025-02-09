@@ -3,6 +3,7 @@
 This repository provides everything needed to set up an **Arduino ESP32** with a **load cell** and visualize the collected data in a **Grafana dashboard**.
 
 <img width="2552" alt="image" src="https://github.com/user-attachments/assets/e8bebe32-f4fb-4b25-a309-915e2f8d946b" />
+
 ---
 
 ## 📡 ESP32 Code Installation
