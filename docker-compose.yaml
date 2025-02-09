@@ -1,0 +1,77 @@
+version: '3.7'
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: myGrafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      Network_DCP:
+        ipv4_address: 192.168.10.10
+    depends_on:
+      - grafana-init
+    restart: always
+
+  influxdb:
+    image: influxdb:1.8
+    container_name: myInfluxDB
+    ports:
+      - "8086:8086"
+    networks:
+      Network_DCP:
+        ipv4_address: 192.168.10.11
+    restart: always
+    volumes:
+      - DCP_influxdb_data:/var/lib/influxdb
+      - ./init-influxdb.sh:/docker-entrypoint-initdb.d/init-influxdb.sh
+    command: >
+      bash -c "chmod +x /docker-entrypoint-initdb.d/init-influxdb.sh &&
+               /docker-entrypoint-initdb.d/init-influxdb.sh &&
+               exec influxd"
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: mynodered
+    ports:
+      - "1880:1880"
+    volumes:
+      - nodered-storage:/data
+    networks:
+      Network_DCP:
+        ipv4_address: 192.168.10.12
+    depends_on:
+      - nodered-init
+    restart: always
+
+  grafana-init:
+    image: alpine
+    container_name: grafana-init
+    command: >
+      sh -c "mkdir -p /data && tar -xzvf /backup/grafana-storage.tar.gz -C /data && echo 'Grafana volume restored!'"
+    volumes:
+      - grafana-storage:/data
+      - ./volumes:/backup
+
+  nodered-init:
+    image: alpine
+    container_name: nodered-init
+    command: >
+      sh -c "mkdir -p /data && tar -xzvf /backup/nodered-storage.tar.gz -C /data && echo 'Node-RED volume restored!'"
+    volumes:
+      - nodered-storage:/data
+      - ./volumes:/backup
+
+networks:
+  Network_DCP:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+
+volumes:
+  grafana-storage:
+  DCP_influxdb_data:
+  nodered-storage:
